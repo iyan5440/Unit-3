@@ -1,5 +1,7 @@
 package Lesson8.Assignments.studentbrowser;
 
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -12,11 +14,34 @@ package Lesson8.Assignments.studentbrowser;
  */
 public class StudentBrowser extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Student2
-     */
+    Student s[];
+    int size, curstu;
     public StudentBrowser() {
         initComponents();
+        s = new Student[10];
+        size=0;
+        curstu=-1;
+        fillData();
+        showStudent();
+    }
+    
+    private void fillData(){
+        String name[] = {"Bart Simpson","Chief Whiggum","Edna Crabapple","Moe Sizzleback","Barney Gumble"};
+        int marks[][] ={
+            {58,65,52},{71,81,66},{85,86,95},{41,52,25},{71,72,81}
+        };
+        for (int i = 0; i < name.length; i++) {
+            //student now requires a name and an array of 3 marks
+            //each item in the marks array is an array of 3 marks
+            s[i] = new Student(name[i],marks[i]);
+            size++;
+            
+            //this line is just to verify that you have students, it can be commented out later:
+            //System.out.println(s[i].getName() + "\t Average " + s[i].getAvg());
+        }
+        
+        //lets start on the first student
+        curstu=0;
     }
 
     /**
@@ -37,17 +62,17 @@ public class StudentBrowser extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         btnadd = new javax.swing.JButton();
         btnmod = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        btnlast = new javax.swing.JButton();
+        btnnxt = new javax.swing.JButton();
+        btnbac = new javax.swing.JButton();
+        btnfirst = new javax.swing.JButton();
         lblcount = new javax.swing.JLabel();
         lblindex = new javax.swing.JLabel();
         txtt1 = new javax.swing.JTextField();
         txtt2 = new javax.swing.JTextField();
         txtt3 = new javax.swing.JTextField();
         txtavg = new javax.swing.JTextField();
-        txtname = new javax.swing.JTextField();
+        lblname = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -79,38 +104,40 @@ public class StudentBrowser extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setText(">>");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnlast.setText(">>");
+        btnlast.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnlastActionPerformed(evt);
             }
         });
 
-        jButton4.setText(">");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnnxt.setText(">");
+        btnnxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnnxtActionPerformed(evt);
             }
         });
 
-        jButton5.setText("<");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btnbac.setText("<");
+        btnbac.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btnbacActionPerformed(evt);
             }
         });
 
-        jButton6.setText("<<");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        btnfirst.setText("<<");
+        btnfirst.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                btnfirstActionPerformed(evt);
             }
         });
 
+        lblcount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblcount.setText("...");
         lblcount.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         lblcount.setOpaque(true);
 
+        lblindex.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblindex.setText("...");
         lblindex.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         lblindex.setOpaque(true);
@@ -136,7 +163,11 @@ public class StudentBrowser extends javax.swing.JFrame {
             }
         });
 
-        txtavg.setBackground(new java.awt.Color(240, 240, 240));
+        txtavg.setEditable(false);
+        txtavg.setBackground(new java.awt.Color(0, 0, 0));
+        txtavg.setForeground(new java.awt.Color(255, 255, 255));
+        txtavg.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtavg.setText("...");
         txtavg.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         txtavg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,10 +175,10 @@ public class StudentBrowser extends javax.swing.JFrame {
             }
         });
 
-        txtname.setEditable(false);
-        txtname.addActionListener(new java.awt.event.ActionListener() {
+        lblname.setEditable(false);
+        lblname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtnameActionPerformed(evt);
+                lblnameActionPerformed(evt);
             }
         });
 
@@ -163,7 +194,7 @@ public class StudentBrowser extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
-                                .addComponent(txtname, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(lblname, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -187,13 +218,13 @@ public class StudentBrowser extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGap(29, 29, 29)
-                                .addComponent(jButton6)
+                                .addComponent(btnfirst)
                                 .addGap(32, 32, 32)
-                                .addComponent(jButton5)
+                                .addComponent(btnbac)
                                 .addGap(45, 45, 45)
-                                .addComponent(jButton4)
+                                .addComponent(btnnxt)
                                 .addGap(49, 49, 49)
-                                .addComponent(jButton3)
+                                .addComponent(btnlast)
                                 .addGap(0, 24, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel2)
@@ -212,7 +243,7 @@ public class StudentBrowser extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -238,10 +269,10 @@ public class StudentBrowser extends javax.swing.JFrame {
                     .addComponent(txtavg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton6)
-                    .addComponent(jButton5)
-                    .addComponent(jButton4)
-                    .addComponent(jButton3))
+                    .addComponent(btnfirst)
+                    .addComponent(btnbac)
+                    .addComponent(btnnxt)
+                    .addComponent(btnlast))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -254,32 +285,86 @@ public class StudentBrowser extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    public void showStudent(){
+        lblname.setText(s[curstu].getName());
+        txtt1.setText(""+s[curstu].getMark(0));
+        txtt2.setText(""+s[curstu].getMark(1));
+        txtt3.setText(""+s[curstu].getMark(2));
+        txtavg.setText("" +s[curstu].getAvg());
+        lblcount.setText("" +size);
+        lblindex.setText("" +(curstu+1));
+        
+    }
+    
+    private void btnfirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnfirstActionPerformed
+        curstu=0;
+        showStudent();
+    }//GEN-LAST:event_btnfirstActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void btnbacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbacActionPerformed
+        if(curstu > 0){
+            curstu--;
+            showStudent();
+        }
+    }//GEN-LAST:event_btnbacActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void btnnxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnxtActionPerformed
+        if(curstu<size-1 && curstu>-1){
+            curstu++;
+            showStudent();
+        }
+    }//GEN-LAST:event_btnnxtActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void btnlastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlastActionPerformed
+        curstu=size-1;
+        System.out.println(curstu);
+        System.out.println(size);
+        showStudent();
+    }//GEN-LAST:event_btnlastActionPerformed
 
     private void btnmodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnmodActionPerformed
-
-    private void btnaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddActionPerformed
         StudentPopup form = new StudentPopup(this,true);
+        form.setForm(s[curstu]);
         form.setModal(true);
         form.setLocationRelativeTo(this); //popup right over the form
         form.setVisible(true);
-        System.out.println("This prints after form is dismissed");
+        Student temp = form.getStudent();
+        
+        String em = temp.vaildateData();
+        if(em==null){
+            s[curstu]=temp;
+            showStudent();
+        }
+        else{
+            JOptionPane.showMessageDialog(this,em);
+        }
+    }//GEN-LAST:event_btnmodActionPerformed
+
+    private void btnaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddActionPerformed
+        if(size<10){
+            StudentPopup form = new StudentPopup(this,true);
+            form.setModal(true);
+            form.setLocationRelativeTo(this); //popup right over the form
+            form.setVisible(true);
+            //after dispose this code will resume here...
+            Student temp = form.getStudent();
+
+            String em = temp.vaildateData();
+            if(em==null){
+                s[size]=temp;
+                curstu=size;
+                size++;
+                showStudent();
+            }
+            else{
+                JOptionPane.showMessageDialog(this,em);
+            }
+        }
+        if(size>=10){
+            
+        }
+        
+        //System.out.println("This prints after form is dismissed");
     }//GEN-LAST:event_btnaddActionPerformed
 
     private void txtt1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtt1ActionPerformed
@@ -298,9 +383,9 @@ public class StudentBrowser extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtavgActionPerformed
 
-    private void txtnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnameActionPerformed
+    private void lblnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblnameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtnameActionPerformed
+    }//GEN-LAST:event_lblnameActionPerformed
 
     /**
      * @param args the command line arguments
@@ -340,11 +425,11 @@ public class StudentBrowser extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnadd;
+    private javax.swing.JButton btnbac;
+    private javax.swing.JButton btnfirst;
+    private javax.swing.JButton btnlast;
     private javax.swing.JButton btnmod;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
+    private javax.swing.JButton btnnxt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -354,8 +439,8 @@ public class StudentBrowser extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel lblcount;
     private javax.swing.JLabel lblindex;
+    private javax.swing.JTextField lblname;
     private javax.swing.JTextField txtavg;
-    private javax.swing.JTextField txtname;
     private javax.swing.JTextField txtt1;
     private javax.swing.JTextField txtt2;
     private javax.swing.JTextField txtt3;
